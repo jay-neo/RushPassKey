@@ -1,0 +1,55 @@
+<svg id='Update_File_24' width='24' height='24' viewBox='0 0 24 24'
+    xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+    <rect width='24' height='24' stroke='none' fill='#000000' opacity='0' />
+
+
+    <g transform="matrix(0.42 0 0 0.42 12 12)">
+        <g style="">
+            <g transform="matrix(1 0 0 1 4 4)">
+                <path
+                    style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(140,231,242); fill-rule: nonzero; opacity: 1;"
+                    transform=" translate(-28, -28)"
+                    d="M 32.865 9 L 16.088 9 C 14.382 9 13 10.382 13 12.088 L 13 43.912 C 13 45.618 14.382 47 16.088 47 L 39.912000000000006 47 C 41.618 47 43 45.618 43 43.912 L 43 19.076 C 43 18.543 42.787 18.032 42.409 17.657 L 34.274 9.581 C 33.9 9.209 33.393 9 32.865 9 z"
+                    stroke-linecap="round" />
+            </g>
+            <g transform="matrix(1 0 0 1 10 -14)">
+                <path
+                    style="stroke: rgb(24,25,63); stroke-width: 3; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
+                    transform=" translate(-34, -10)"
+                    d="M 38.5 14.5 L 31.5 14.5 C 30.395 14.5 29.5 13.605 29.5 12.5 L 29.5 5.5"
+                    stroke-linecap="round" />
+            </g>
+            <g transform="matrix(1 0 0 1 14.5 -3.97)">
+                <line
+                    style="stroke: rgb(24,25,63); stroke-width: 3; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
+                    x1="0" y1="5.5265" x2="0" y2="-5.5265" />
+            </g>
+            <g transform="matrix(1 0 0 1 -7.25 0)">
+                <path
+                    style="stroke: rgb(24,25,63); stroke-width: 3; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
+                    transform=" translate(-16.75, -24)"
+                    d="M 22.915 5.5 L 12.5 5.5 C 10.843 5.5 9.5 6.843 9.5 8.5 L 9.5 39.5 C 9.5 41.157 10.843 42.5 12.5 42.5 L 24 42.5"
+                    stroke-linecap="round" />
+            </g>
+            <g transform="matrix(1 0 0 1 10 -14)">
+                <line
+                    style="stroke: rgb(24,25,63); stroke-width: 3; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
+                    x1="4.5" y1="4.5" x2="-4.5" y2="-4.5" />
+            </g>
+            <g transform="matrix(1 0 0 1 12.11 14.5)">
+                <path
+                    style="stroke: rgb(24,25,63); stroke-width: 3; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
+                    transform=" translate(-36.11, -38.5)"
+                    d="M 42.799 43.433 C 41.334 45.3 39.057 46.5 36.5 46.5 C 32.082 46.5 28.5 42.918 28.5 38.5 C 28.5 34.082 32.082 30.5 36.5 30.5 C 39.688 30.5 42.44 32.365 43.726 35.063"
+                    stroke-linecap="round" />
+            </g>
+            <g transform="matrix(1 0 0 1 19.21 10.21)">
+                <path
+                    style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(24,25,63); fill-rule: nonzero; opacity: 1;"
+                    transform=" translate(-43.21, -34.21)"
+                    d="M 46 32.15 L 46 36.263 C 46 36.67 45.67 37 45.264 37 L 41.15 37 C 40.494 37 40.165 36.207 40.629 35.743 L 44.742 31.630000000000003 C 45.207 31.165 46 31.494 46 32.15 z"
+                    stroke-linecap="round" />
+            </g>
+        </g>
+    </g>
+</svg>
