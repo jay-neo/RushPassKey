@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import MultiRangeSlider from "multi-range-slider-react";
+import { invoke } from "@tauri-apps/api/core";
 
 const AccountForm = ({ closeForm }: { closeForm: () => void }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<GeneratePassword>({
     accountName: "",
     websiteUrl: "https://",
     email: "",
@@ -45,6 +46,16 @@ const AccountForm = ({ closeForm }: { closeForm: () => void }) => {
       maxPasswordValue: e.maxValue,
     });
   };
+  // const [s, setS] = useState<boolean | null>(null);
+
+  // useEffect(() => {
+  //   if (s === true) {
+  //     alert("Password saved successfully!");
+  //     closeForm();
+  //   } else if (s === false) {
+  //     alert("Failed to save password.");
+  //   }
+  // }, [s]);
 
   const formSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +64,33 @@ const AccountForm = ({ closeForm }: { closeForm: () => void }) => {
         "Please fill at least one of the fields: Email, Phone, or Username."
       );
       return;
+    }
+    try {
+      const success = await invoke<boolean>("new_account", {
+        data: {
+          account_name: formData.accountName,
+          website_url: formData.websiteUrl,
+          email: formData.email,
+          username: formData.username,
+          phone: formData.phone,
+          alphabet: formData.alphabet,
+          number: formData.number,
+          symbols: formData.symbols,
+          casing_enabled: formData.casingEnabled,
+          casing: formData.casing,
+          min_password_value: formData.minPasswordValue,
+          max_password_value: formData.maxPasswordValue,
+        },
+      });
+
+      if (success) {
+        alert("Password saved successfully!");
+      } else {
+        alert("Failed to save password.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred.");
     }
     closeForm();
   };
