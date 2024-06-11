@@ -20,7 +20,10 @@ pub fn create(encrypted_data: &str) -> bool {
         Err(_) => return false,
     };
 
-    if file.write_all(encrypted_data.as_bytes()).is_err() {
+    if file
+        .write_all(format!("{}\n", encrypted_data).as_bytes())
+        .is_err()
+    {
         return false;
     }
 

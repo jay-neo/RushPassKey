@@ -23,10 +23,11 @@ pub fn new_account(data: Account) -> bool {
         data.account_name, data.website_url, data.email, data.username, data.phone, password
     );
 
-    let encrypted_data: String = match encrypt(&entry, &GLOBAL_USER_PASSWORD) {
-        Ok(data) => data,
-        Err(_) => return false,
-    };
+    let encrypted_data: String = encrypt(&entry, "&GLOBAL_USER_PASSWORD");
+    // match decrypt(&entry, password) {
+    //     Some(decrypted) => decrypted,
+    //     None => false,
+    // }
 
     create(&encrypted_data)
 }
