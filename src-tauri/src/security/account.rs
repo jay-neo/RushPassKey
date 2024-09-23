@@ -1,96 +1,86 @@
-use base64::{engine::general_purpose::STANDARD, Engine};
-use openssl::pkcs5::pbkdf2_hmac;
-use openssl::sha::Sha256;
-use openssl::symm::{Cipher, Crypter, Mode};
-use rand::{rngs::OsRng, RngCore};
-use std::error::Error;
+use aes_gcm::aead::{Aead, KeyInit}; // Import the KeyInit trait to use `new_from_slice`
+use aes_gcm::{Aes256Gcm, Nonce}; // Import AES-GCM encryption and decryption
+use base64::{engine::general_purpose, Engine as _}; // For base64 encoding/decoding
+use rand::Rng; // For generating random salt and nonce
+use ring::pbkdf2;
+use std::num::NonZeroU32;
 
-// Generate a random salt
-pub fn generate_salt() -> Vec<u8> {
-    let mut salt = vec![0u8; 16];
-    OsRng.fill_bytes(&mut salt);
-    salt
-}
+const SALT_SIZE: usize = 16;
+const NONCE_SIZE: usize = 12; // AES-GCM uses 96-bit (12 bytes) nonces
+const PBKDF2_ITERATIONS: u32 = 100_000;
+const KEY_SIZE: usize = 32; // For AES-256-GCM (32 bytes = 256 bits)
 
-// Derive a key from a password and salt using PBKDF2
-fn derive_key(
-    password: &Lazy<Mutex<String>>,
-    salt: &[u8],
-) -> Result<[u8; 32], Box<dyn std::error::Error>> {
-    let mut key = [0u8; 32]; // AES-256 needs a 32-byte key
+// Helper function to derive a key from password and salt using `ring::pbkdf2`
+fn derive_key(password: &str, salt: &[u8]) -> [u8; KEY_SIZE] {
+    let mut key = [0u8; KEY_SIZE];
 
-    // Use OpenSSL's pbkdf2_hmac function with the appropriate MessageDigest
-    pbkdf2_hmac(
-        password.lock().unwrap().as_bytes(),
+    let iterations = NonZeroU32::new(PBKDF2_ITERATIONS).unwrap();
+
+    // Use PBKDF2 from the `ring` crate to derive a key
+    pbkdf2::derive(
+        pbkdf2::PBKDF2_HMAC_SHA256, // HMAC-SHA256 as the hashing algorithm
+        iterations,
         salt,
-        100_000,
-        MessageDigest::sha256(), // Use OpenSSL's MessageDigest
+        password.as_bytes(),
         &mut key,
-    )?;
+    );
 
-    Ok(key)
+    key
 }
 
-// Encrypt data using AES-256-CBC
-pub fn encrypt(
-    data: &str,
-    password: &once_cell::sync::Lazy<std::sync::Mutex<std::string::String>>,
-) -> Result<String, Box<dyn Error>> {
-    let salt = generate_salt(); // Random salt
-    let key = derive_key(password, &salt)?; // Derive encryption key
+// Encrypt function
+pub fn encrypt(plaintext: &str, password: &str) -> String {
+    // Generate a random salt and nonce
+    let salt: [u8; SALT_SIZE] = rand::thread_rng().gen();
+    let nonce: [u8; NONCE_SIZE] = rand::thread_rng().gen();
 
-    // Generate a random IV (initialization vector)
-    let mut iv = vec![0u8; 16];
-    OsRng.fill_bytes(&mut iv);
+    // Derive the key from the password and salt
+    let key = derive_key(password, &salt);
 
-    // Initialize AES-256-CBC encryption
-    let cipher = Cipher::aes_256_cbc();
-    let mut crypter = Crypter::new(cipher, Mode::Encrypt, &key, Some(&iv))?;
-    crypter.pad(true);
+    // Create an AES-GCM instance
+    let cipher = Aes256Gcm::new_from_slice(&key).expect("key length should be valid"); // Use the key directly
+    let nonce = Nonce::from_slice(&nonce); // 96-bit nonce (12 bytes)
 
-    // Prepare the buffer for encryption
-    let mut ciphertext = vec![0u8; data.len() + cipher.block_size()];
-    let mut count = crypter.update(data.as_bytes(), &mut ciphertext)?;
-    count += crypter.finalize(&mut ciphertext[count..])?;
-    ciphertext.truncate(count);
+    // Encrypt the plaintext
+    let ciphertext = cipher
+        .encrypt(nonce, plaintext.as_bytes())
+        .expect("encryption failure!");
 
-    // Encode salt, IV, and encrypted data to base64
-    let salt_encoded = STANDARD.encode(&salt);
-    let iv_encoded = STANDARD.encode(&iv);
-    let encrypted_data_encoded = STANDARD.encode(&ciphertext);
+    // Combine salt + nonce + ciphertext for output
+    let mut result = Vec::new();
+    result.extend_from_slice(&salt);
+    result.extend_from_slice(&nonce);
+    result.extend_from_slice(&ciphertext);
 
-    Ok(format!(
-        "{}:{}:{}",
-        salt_encoded, iv_encoded, encrypted_data_encoded
-    ))
+    // Return as base64 encoded string
+    general_purpose::STANDARD.encode(&result) // Updated to use Engine::encode
 }
 
-// Decrypt data using AES-256-CBC
-pub fn decrypt(
-    encrypted_data: &str,
-    password: &once_cell::sync::Lazy<std::sync::Mutex<std::string::String>>,
-) -> Result<String, Box<dyn Error>> {
-    let parts: Vec<&str> = encrypted_data.split(':').collect();
-    if parts.len() != 3 {
-        return Err("Invalid encrypted data format".into());
+// Decrypt function
+pub fn decrypt(ciphertext_b64: &str, password: &str) -> Option<String> {
+    // Decode the base64 input
+    let decoded = general_purpose::STANDARD.decode(ciphertext_b64).ok()?; // Updated to use Engine::decode
+
+    // Extract the salt, nonce, and ciphertext
+    if decoded.len() < SALT_SIZE + NONCE_SIZE {
+        return None;
     }
 
-    let salt = STANDARD.decode(parts[0])?;
-    let iv = STANDARD.decode(parts[1])?;
-    let encrypted_data = STANDARD.decode(parts[2])?;
+    let salt = &decoded[..SALT_SIZE];
+    let nonce = &decoded[SALT_SIZE..SALT_SIZE + NONCE_SIZE];
+    let ciphertext = &decoded[SALT_SIZE + NONCE_SIZE..];
 
-    let key = derive_key(password, &salt)?; // Derive decryption key
+    // Derive the key from the password and salt
+    let key = derive_key(password, salt);
 
-    // Initialize AES-256-CBC decryption
-    let cipher = Cipher::aes_256_cbc();
-    let mut crypter = Crypter::new(cipher, Mode::Decrypt, &key, Some(&iv))?;
-    crypter.pad(true);
+    // Create an AES-GCM instance
+    let cipher = Aes256Gcm::new_from_slice(&key).expect("key length should be valid");
+    let nonce = Nonce::from_slice(nonce); // 96-bit nonce
 
-    // Prepare the buffer for decryption
-    let mut decrypted_data = vec![0u8; encrypted_data.len() + cipher.block_size()];
-    let mut count = crypter.update(&encrypted_data, &mut decrypted_data)?;
-    count += crypter.finalize(&mut decrypted_data[count..])?;
-    decrypted_data.truncate(count);
+    // Decrypt the ciphertext
+    let plaintext = cipher.decrypt(nonce, ciphertext).ok()?;
 
-    Ok(String::from_utf8(decrypted_data)?)
+    // Convert the plaintext to a string
+    String::from_utf8(plaintext).ok()
 }
+
