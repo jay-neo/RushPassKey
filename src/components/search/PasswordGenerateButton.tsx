@@ -1,6 +1,5 @@
 import { useState } from "react";
 import GeneratePasswordForm from "src/components/ui/forms/generate-password/form";
-import Hello from "../ui/forms/temp";
 
 const Test = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

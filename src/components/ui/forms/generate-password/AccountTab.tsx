@@ -3,7 +3,7 @@ import MultiRangeSlider from "multi-range-slider-react";
 import { invoke } from "@tauri-apps/api/core";
 
 const AccountForm = ({ closeForm }: { closeForm: () => void }) => {
-  const [formData, setFormData] = useState<GeneratePassword>({
+  const [formData, setFormData] = useState<AccountServer>({
     accountName: "",
     websiteUrl: "https://",
     email: "",
