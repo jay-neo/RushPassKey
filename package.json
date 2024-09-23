@@ -4,7 +4,11 @@
   "version": "0.1.0",
   "type": "module",
   "description": "an exceptional password manager",
-  "author": {"name": "Jagadish Sau", "email": "jay-neo@outlook.com", "url": "https://jay-neo.github.io"},
+  "author": {
+    "name": "Jagadish Sau",
+    "email": "jay-neo@outlook.com",
+    "url": "https://jay-neo.github.io"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
