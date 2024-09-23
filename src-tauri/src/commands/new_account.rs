@@ -1,12 +1,10 @@
 use crate::accounts::password::generate;
-use crate::db::account::create;
-use crate::globals::GLOBAL_USER_PASSWORD;
-use crate::security::account::encrypt;
-use crate::types::{Account, PasswordConfig};
+use crate::db::account::create_account;
+use crate::types::{AccountPassConfig, AccountServer};
 
 #[tauri::command]
-pub fn new_account(data: Account) -> bool {
-    let password_config: PasswordConfig = PasswordConfig {
+pub fn new_account(data: AccountServer) -> bool {
+    let password_config: AccountPassConfig = AccountPassConfig {
         alphabet: data.alphabet,
         number: data.number,
         symbols: data.symbols,
@@ -18,16 +16,10 @@ pub fn new_account(data: Account) -> bool {
 
     let password: String = generate(&password_config);
 
-    let entry: String = format!(
+    let refined_data: String = format!(
         "Account: {}\nWebsite: {}\nEmail: {}\nUsername: {}\nPhone: {}\nPassword: {}\n\n",
         data.account_name, data.website_url, data.email, data.username, data.phone, password
     );
 
-    let encrypted_data: String = encrypt(&entry, "&GLOBAL_USER_PASSWORD");
-    // match decrypt(&entry, password) {
-    //     Some(decrypted) => decrypted,
-    //     None => false,
-    // }
-
-    create(&encrypted_data)
+    create_account(&refined_data)
 }
