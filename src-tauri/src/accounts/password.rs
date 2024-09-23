@@ -1,7 +1,7 @@
+use crate::types::AccountPassConfig;
 use rand::Rng;
-use crate::types::PasswordConfig;
 
-fn generate_random_character(config: &PasswordConfig) -> char {
+fn generate_random_character(config: &AccountPassConfig) -> char {
     let mut rng: rand::prelude::ThreadRng = rand::thread_rng();
     let mut chars: Vec<char> = vec![];
 
@@ -17,17 +17,21 @@ fn generate_random_character(config: &PasswordConfig) -> char {
     }
 
     if config.symbols {
-        chars.extend(['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', '|', ';', ':', ',', '.', '<', '>', '/', '?']);
+        chars.extend([
+            '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{',
+            '}', '|', ';', ':', ',', '.', '<', '>', '/', '?',
+        ]);
     }
 
     let random_index: usize = rng.gen_range(0..chars.len());
     chars[random_index]
 }
 
-pub fn generate(config: &PasswordConfig) -> String {
+pub fn generate(config: &AccountPassConfig) -> String {
     let mut rng: rand::prelude::ThreadRng = rand::thread_rng();
-    let password_length: usize = rng.gen_range(config.min_password_value..=config.max_password_value);
-    
+    let password_length: usize =
+        rng.gen_range(config.min_password_value..=config.max_password_value);
+
     let password: String = std::iter::repeat_with(|| generate_random_character(config))
         .take(password_length)
         .collect();

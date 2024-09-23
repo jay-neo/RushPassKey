@@ -16,7 +16,7 @@ fn derive_key(password: &str, identifier: &String) -> [u8; 32] {
     key
 }
 
-pub fn config(password: &str) -> Result<String, Box<dyn Error>> {
+pub fn one_time_config(password: &str) -> Result<String, Box<dyn Error>> {
     let current_identifier: String = identifier::get_machine_identifier();
     let key: [u8; 32] = derive_key(password, &current_identifier);
 
@@ -41,7 +41,7 @@ pub fn config(password: &str) -> Result<String, Box<dyn Error>> {
     Ok(encode(encrypted_data))
 }
 
-pub fn verify(password: &str, encrypted_hex: &str) -> Result<String, Box<dyn Error>> {
+pub fn startup_verification(password: &str, encrypted_hex: &str) -> Result<String, Box<dyn Error>> {
     let encrypted_data: Vec<u8> = decode(encrypted_hex)?;
 
     // Extract IV and ciphertext

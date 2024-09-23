@@ -1,7 +1,7 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
-pub struct Account {
+pub struct AccountServer {
     pub account_name: String,
     pub website_url: String,
     pub email: String,
@@ -16,8 +16,19 @@ pub struct Account {
     pub max_password_value: usize,
 }
 
+#[derive(Serialize)]
+pub struct AccountClient {
+    // pub id: String,
+    pub account_name: String,
+    pub website_url: String,
+    pub email: String,
+    pub username: String,
+    pub phone: String,
+    pub password: String,
+}
+
 #[derive(Deserialize)]
-pub struct PasswordConfig {
+pub struct AccountPassConfig {
     pub alphabet: bool,
     pub number: bool,
     pub symbols: bool,
