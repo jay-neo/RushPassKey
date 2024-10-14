@@ -2,7 +2,7 @@ use std::fs::{create_dir_all, File, OpenOptions};
 use std::io::Write;
 use std::path::PathBuf;
 
-pub fn create(encrypted_data: &str) -> bool {
+pub fn create_user(encrypted_data: &str) -> bool {
     let home_dir: PathBuf = dirs::home_dir().expect("Cannot find home directory");
     let path: PathBuf = home_dir.join(".rasspasskey");
 
