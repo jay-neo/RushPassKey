@@ -1,3 +1,2 @@
-pub mod account;
-pub mod password;
+pub mod accounts;
 pub mod user;
