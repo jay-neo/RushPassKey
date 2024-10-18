@@ -1,12 +1,10 @@
-
-import { useLocation, useNavigate } from 'react-router-dom';
-
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const topics = ["All", "Account", "URL", "Email", "Username", "Phone", "SSH"];
+  const topics = ["All", "Website", "Email", "Username", "Phone"];
 
   const searchParams = new URLSearchParams(location.search);
   const currentTopic = searchParams.get("topic") || "All";
@@ -29,9 +27,11 @@ export default () => {
             key={topic}
             onClick={() => handleTopicChange(topic)}
             className={`px-4 py-1 rounded-full whitespace-nowrap text-sm
-              ${currentTopic === topic
-                ? "bg-fuchsia-600 text-white font-bold"
-                : "border-2 border-purple-700 text-indigo-700 font-bold"}
+              ${
+                currentTopic === topic
+                  ? "bg-fuchsia-600 text-white font-bold"
+                  : "border-2 border-purple-700 text-indigo-700 font-bold"
+              }
             `}
           >
             <span>{topic}</span>

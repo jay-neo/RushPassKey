@@ -1,27 +1,30 @@
 /// <reference types="vite/client" />
 
-type AccountServer = {
-  accountName: string;
-  websiteUrl: string;
-  email: string;
-  username: string;
-  phone: string;
+type AccountPassConfig = {
   alphabet: boolean;
   number: boolean;
   symbols: boolean;
-  casingEnabled: boolean;
+  casing_enabled: boolean;
   casing: "small" | "capital";
-  minPasswordValue: number;
-  maxPasswordValue: number;
+  min_password_value: number;
+  max_password_value: number;
 };
 
-type AccountClient = {
+type AccountServer = AccountPassConfig & {
   account_name: string;
   website_url: string;
-  last_updated: Date;
-  last_used?: Date;
   email: string;
   username: string;
   phone: string;
-  password: string;
+};
+
+type AccountClient = {
+  id: string;
+  account_name: string;
+  website_url: string;
+  last_updated: String;
+  last_used: String;
+  email: string;
+  username: string;
+  phone: string;
 };

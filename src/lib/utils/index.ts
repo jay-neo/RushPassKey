@@ -1,0 +1,1 @@
+export { extractBaseDomain } from "./accounts";

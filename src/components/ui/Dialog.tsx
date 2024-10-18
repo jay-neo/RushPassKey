@@ -17,13 +17,11 @@ const Dialog: React.FC<DialogProps> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 md:py-6">
-      {/* Overlay */}
       <div
         className="fixed inset-0 bg-gray-800 opacity-50"
         onClick={onClose}
       ></div>
 
-      {/* Dialog Container */}
       <div className="relative bg-white p-5 md:p-10 md:rounded-lg shadow-lg w-full h-full max-w-full md:max-w-2xl md:max-h-full md:h-auto overflow-auto">
         {/* Close Button */}
         <button
@@ -33,7 +31,6 @@ const Dialog: React.FC<DialogProps> = ({
           &times;
         </button>
 
-        {/* Dialog Content */}
         <div className="relative mt-8">
           <h2 className="text-2xl font-semibold text-center mb-4">{title}</h2>
           <div className="mb-4">{children}</div>

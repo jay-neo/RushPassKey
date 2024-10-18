@@ -16,7 +16,7 @@ export default () => {
 
   return (
     <>
-      <div className="flex-shrink-0 inline-flex items-center pl-4 pr-2 text-sm font-medium text-center rounded-l-3xl bg-stone-600/50">
+      <div className="flex-shrink-0 inline-flex items-center pl-4 pr-2 text-sm font-medium text-center rounded-l-3xl bg-lime-400/50">
         <div className="">
           <svg
             className="w-4 h-4"
@@ -44,7 +44,7 @@ export default () => {
         <input
           type="search"
           id="search-dropdown"
-          className="focus-visible:outline-none focus-visible:ring-0 block p-3 w-full truncate z-20 a rounded-r-lg bg-stone-600/50 text-teal-900 font-semibold placeholder:text-black placeholder:italic placeholder:font-thin"
+          className="focus-visible:outline-none focus-visible:ring-0 block p-2.5 w-full truncate z-20 a rounded-r-lg bg-lime-400/50 text-teal-900 font-semibold placeholder:text-black placeholder:italic placeholder:font-thin"
           placeholder="Search your passwords"
           autoComplete="off"
           defaultValue={location.search.match("query")?.toString()}
