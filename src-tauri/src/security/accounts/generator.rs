@@ -27,7 +27,7 @@ fn generate_random_character(config: &AccountPassConfig) -> char {
     chars[random_index]
 }
 
-pub fn generate(config: &AccountPassConfig) -> String {
+pub fn generate_account_password(config: &AccountPassConfig) -> String {
     let mut rng: rand::prelude::ThreadRng = rand::thread_rng();
     let password_length: usize =
         rng.gen_range(config.min_password_value..=config.max_password_value);

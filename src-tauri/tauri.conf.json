@@ -11,7 +11,9 @@
   "app": {
     "windows": [
       {
-        "title": "RushPassKey - The Rust Based Password Manager",
+        "title": "RushPassKey",
+        "minWidth": 440,
+        "minHeight": 800,
         "width": 1200,
         "height": 800
       }

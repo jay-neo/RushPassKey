@@ -28,7 +28,6 @@ fn derive_key(password: &str, salt: &[u8]) -> [u8; KEY_SIZE] {
     key
 }
 
-// Encrypt function
 pub fn encrypt_account(plaintext: &str, password: &str) -> String {
     // Generate a random salt and nonce
     let salt: [u8; SALT_SIZE] = rand::thread_rng().gen();
@@ -56,8 +55,8 @@ pub fn encrypt_account(plaintext: &str, password: &str) -> String {
     general_purpose::STANDARD.encode(&result) // Updated to use Engine::encode
 }
 
-// Decrypt function
-pub fn decrypt_acount(ciphertext_b64: &str, password: &str) -> Option<String> {
+
+pub fn decrypt_account(ciphertext_b64: &str, password: &str) -> Option<String> {
     // Decode the base64 input
     let decoded = general_purpose::STANDARD.decode(ciphertext_b64).ok()?; // Updated to use Engine::decode
 

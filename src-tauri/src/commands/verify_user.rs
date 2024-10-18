@@ -1,7 +1,9 @@
-use crate::app::cache::initialize_cache;
+use crate::app::startup::startup;
 
 #[tauri::command]
-pub fn verify_user() -> bool {
-    let _ = initialize_cache();
-    true
+pub fn verify_user(password: String) -> bool {
+    if password != "jayneo" {
+        return false;
+    }
+    return startup(password);
 }
