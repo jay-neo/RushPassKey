@@ -1,11 +1,20 @@
-import Home from "src/pages/Home";
+import { useState } from "react";
+import { MainPage } from "src/views/MainPage";
+import { AppLockScreen } from "./views/AppLockScreen";
+import { AccountsProvider } from "./lib/accounts/AccountsContext";
+import { Toaster } from "./lib/sonner";
 
 export default () => {
-  return (
-    <div className="m-1">
-      <div className="">
-        <Home />
-      </div>
-    </div>
-  );
+  const [password, setPassword] = useState<null | string>(null);
+
+  if (!password) {
+    return <AppLockScreen confirmPassword={setPassword} />;
+  } else if (password) {
+    return (
+      <AccountsProvider>
+        <MainPage password={password} setPassword={setPassword} />
+        <Toaster />
+      </AccountsProvider>
+    );
+  }
 };
