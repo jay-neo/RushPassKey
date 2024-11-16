@@ -1,4 +1,5 @@
 use std::process::Command;
+use std::fs;
 
 #[cfg(target_os = "linux")]
 pub fn get_machine_identifier() -> String {
