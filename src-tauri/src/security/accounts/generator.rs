@@ -6,8 +6,10 @@ fn generate_random_character(config: &AccountPassConfig) -> char {
     let mut chars: Vec<char> = vec![];
 
     if config.alphabet {
-        chars.extend('a'..='z');
-        if config.casing_enabled && config.casing == "upper" {
+        if config.casing_enabled || config.casing == "small" {
+            chars.extend('a'..='z');
+        }
+        if config.casing_enabled || config.casing == "capital" {
             chars.extend('A'..='Z');
         }
     }

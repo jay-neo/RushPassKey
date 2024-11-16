@@ -154,7 +154,7 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
         >
           <PasswordSettingInnerForm
             formData={formData}
-            setFormData={setFormData}
+            setFormData={setFormData as React.Dispatch<React.SetStateAction<AccountPassConfig>>}
           />
         </div>
       </div>
