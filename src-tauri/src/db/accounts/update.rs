@@ -3,10 +3,10 @@ use chrono::Local;
 use crate::{
     app::cache::ACCOUNTS,
     db::{accounts::utils::save_accounts_to_file, config::DB_DATE_FORMAT},
-    types::{AccountCache, AccountClient},
+    types::{AccountCache, AccountClient, CopyPasswordResult},
 };
 
-pub fn update_account_for_copy_password(id: &String) -> Option<String> {
+pub fn update_account_for_copy_password(id: &String) -> Option<CopyPasswordResult> {
     let mut accounts_cache: std::sync::RwLockWriteGuard<'_, Option<Vec<AccountCache>>> =
         match ACCOUNTS.write() {
             Ok(guard) => guard,
@@ -30,7 +30,10 @@ pub fn update_account_for_copy_password(id: &String) -> Option<String> {
             accounts[mid].last_used = Local::now().format(DB_DATE_FORMAT).to_string();
             match save_accounts_to_file(accounts) {
                 Some(()) => {
-                    return Some(accounts[mid].password.clone());
+                    return Some(CopyPasswordResult {
+                        password: accounts[mid].password.clone(),
+                        last_used: accounts[mid].last_used.clone(),
+                    });
                 }
                 None => {
                     println!("Failed to save account: {:?}", accounts[mid]);

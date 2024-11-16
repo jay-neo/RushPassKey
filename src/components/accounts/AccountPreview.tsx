@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import { invoke } from "@tauri-apps/api/core";
 import { RegenerateAccountPasswordForm } from "./forms/RegenerateAccountPasswordForm";
+import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 
 export const AccountPreview: React.FC<AccountClient> = ({
   id,
@@ -13,29 +14,34 @@ export const AccountPreview: React.FC<AccountClient> = ({
   last_used,
   last_updated,
 }) => {
+  const [lastUsedState, setLastUsedState] = useState(last_used);
   const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
   const closeUpdateForm = async () => setIsUpdateFormOpen(false);
 
   const copyToClipboard = async () => {
     try {
-      const password = await invoke<string>("copy_account_password", {
+      const {password, last_used: lastUsed} = await invoke<PasswordResult>("copy_account_password", {
         id,
       });
       if (password) {
-        navigator.clipboard
-          .writeText(password)
-          .then(() => {
-            toast.success("Password copied to clipboard!");
-          })
-          .catch((err) => {
-            console.error("Failed to copy password: ", err);
-            toast.error("Failed to copy password!");
-          });
+        // navigator.clipboard
+        //   .writeText(password)
+        //   .then(() => {
+        //     toast.success("Password copied to clipboard!");
+        //   })
+        //   .catch((err) => {
+        //     console.error("Failed to copy password: ", err);
+        //     toast.error("Failed to copy password!");
+        //   });
+        await writeText(password);
+        setLastUsedState(lastUsed);
+        toast.success('Password copied to clipboard!');
       } else {
         toast.error("Failed to copy password.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error:", error);
+      console.error("Error:", error?.message);
       toast.error("Error! We couldn't process your request.");
     }
   };
@@ -80,7 +86,7 @@ export const AccountPreview: React.FC<AccountClient> = ({
             </p>
             <p className="font-bold truncate w-full">
               {"Last Used: "}
-              <span className="font-normal font-mono">{last_used}</span>
+              <span className="font-normal font-mono">{lastUsedState}</span>
             </p>
           </div>
 

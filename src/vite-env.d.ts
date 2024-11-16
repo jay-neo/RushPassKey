@@ -28,3 +28,8 @@ type AccountClient = {
   username: string;
   phone: string;
 };
+
+type PasswordResult = {
+  password: string;
+  last_used: String;
+}
