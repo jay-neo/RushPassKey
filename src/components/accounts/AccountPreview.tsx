@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { invoke } from "@tauri-apps/api/core";
 import { RegenerateAccountPasswordForm } from "./forms/RegenerateAccountPasswordForm";
@@ -20,7 +20,7 @@ export const AccountPreview: React.FC<AccountClient> = ({
 
   const copyToClipboard = async () => {
     try {
-      const {password, last_used: lastUsed} = await invoke<PasswordResult>("copy_account_password", {
+      const { password, last_used: lastUsed } = await invoke<PasswordResult>("copy_account_password", {
         id,
       });
       if (password) {
@@ -45,6 +45,19 @@ export const AccountPreview: React.FC<AccountClient> = ({
       toast.error("Error! We couldn't process your request.");
     }
   };
+  const [logo, setLogo] = useState<boolean>(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`https://logo.clearbit.com/${website_url}`, {
+          mode: "cors"
+        });
+        setLogo(res.ok);
+      } catch (error) {
+      }
+    })()
+  }, [])
 
   return (
     <>
@@ -58,10 +71,14 @@ export const AccountPreview: React.FC<AccountClient> = ({
 
         <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 md:space-x-8 w-full">
           <div className="flex items-center space-x-4 w-full md:w-4/12">
-            <div className="bg-blue-200 border-black border-2 rounded-full px-7 py-5">
-              <span className="text-2xl font-bold">
-                {account_name.charAt(0)}
-              </span>
+            <div className={` border-black border-2 rounded-full ${logo ? `p-1` : `px-7 py-5 bg-blue-200`}`}>
+              {logo ?
+                <img src={`https://logo.clearbit.com/${website_url}`} alt="" width={70} height={70} className="rounded-full" />
+                :
+                <span className="text-3xl font-bold">
+                  {account_name.charAt(0)}
+                </span>
+              }
             </div>
             <div className="flex flex-col md:flex-wrap w-8/12">
               <span className="text-3xl font-bold truncate w-full">
