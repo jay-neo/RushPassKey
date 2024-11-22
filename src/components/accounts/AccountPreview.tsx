@@ -148,16 +148,16 @@ export const AccountPreview: React.FC<AccountClient> = ({
         header={
           <div>
             <div>
-              <span className="text-2xl font-semibold mr-2">Account Name:</span>
+              <span className="text-2xl font-semibold mr-2">Account:</span>
               <span className="text-2xl font-bold text-lime-600">
                 {account_name}
               </span>
             </div>
             <span className="text-xl font-semibold text-lime-500"></span>
             <span className="text-xl font-semibold"></span>
-            {email && <div>Email: {email}</div>}
-            {username && <div>Username: {username}</div>}
-            {phone && <div>Phone: {phone}</div>}
+            {email && <div><span className="font-semibold">Email:</span> <span className="text-orange-800">{email}</span></div>}
+            {username && <div><span className="font-semibold">Username:</span> <span className="text-orange-800">{username}</span></div>}
+            {phone && <div><span className="font-semibold">Phone:</span> <span className="text-orange-800">{phone}</span></div>}
           </div>
         }
       />

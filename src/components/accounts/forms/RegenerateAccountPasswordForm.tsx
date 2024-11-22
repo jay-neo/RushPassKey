@@ -5,6 +5,7 @@ import { useAccounts } from "src/lib/accounts/AccountsContext";
 import { deleteAccount } from "src/lib/accounts/deleteAccount";
 import { updateAccount } from "src/lib/accounts/updateAccounts";
 import { PasswordSettingInnerForm } from "./PasswordSettingInnerForm";
+import { Loader } from "src/components/ui/Loader";
 
 interface DialogProps {
   isOpen: boolean;
@@ -50,7 +51,6 @@ export const RegenerateAccountPasswordForm: React.FC<DialogProps> = ({
       );
       if (updatedAccount && id) {
         await updateAccount(accounts, setAccounts, id, updatedAccount);
-        await onClose();
         toast.success("Password regenerated successfully!");
       } else {
         toast.error("Failed to save password.");
@@ -59,6 +59,7 @@ export const RegenerateAccountPasswordForm: React.FC<DialogProps> = ({
       console.error("Error:", error);
       toast.error("Error! We couldn't process your request.");
     }
+    await onClose();
     setGeneratingStatus(false);
   };
 
@@ -154,10 +155,10 @@ export const RegenerateAccountPasswordForm: React.FC<DialogProps> = ({
                     `}
                     >
                       {generatingStatus ? (
-                        <span>
+                        <div className="flex items-center justify-center text-white">
                           Regenerating
-                          <span className="ellipsis" />
-                        </span>
+                          <Loader />
+                        </div>
                       ) : (
                         <div>Password Regenerate</div>
                       )}
@@ -176,10 +177,10 @@ export const RegenerateAccountPasswordForm: React.FC<DialogProps> = ({
                     disabled={deletingStatus}
                   >
                     {deletingStatus ? (
-                      <span>
+                      <div className="flex items-center justify-center text-white">
                         Deleting
-                        <span className="ellipsis" />
-                      </span>
+                        <Loader />
+                      </div>
                     ) : (
                       "Delete Account"
                     )}

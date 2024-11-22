@@ -4,6 +4,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { extractBaseDomain } from "src/lib/utils";
 import { useAccounts } from "src/lib/accounts/AccountsContext";
 import { PasswordSettingInnerForm } from "./PasswordSettingInnerForm";
+import { Loader } from "src/components/ui/Loader";
 
 const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
   const { setAccounts } = useAccounts();
@@ -34,8 +35,8 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
         name === "website_url"
           ? extractBaseDomain(value)
           : type === "checkbox"
-          ? checked
-          : value,
+            ? checked
+            : value,
     });
   };
 
@@ -54,7 +55,6 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
       });
       if (newAccount) {
         setAccounts((prevAccounts) => [newAccount, ...prevAccounts]);
-        await closeForm();
         toast.success("Password saved successfully!");
       } else {
         toast.error("Failed to save password.");
@@ -63,6 +63,7 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
       console.error("Error:", error);
       toast.error("Error! We couldn't process your request.");
     }
+    await closeForm();
     setGeneratingStatus(false);
   };
 
@@ -148,9 +149,8 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
           <span className="font-bold">Default Password Settings</span>
         </div>
         <div
-          className={`overflow-hidden transition-all duration-500 ease-in-out ${
-            showAdvancedOptions ? "max-h-screen" : "max-h-0"
-          }`}
+          className={`overflow-hidden transition-all duration-500 ease-in-out ${showAdvancedOptions ? "max-h-screen" : "max-h-0"
+            }`}
         >
           <PasswordSettingInnerForm
             formData={formData}
@@ -163,15 +163,14 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
         <button
           type="submit"
           disabled={generatingStatus}
-          className={`mt-6 p-2 w-32 text-white rounded-full ${
-            generatingStatus ? `bg-purple-700` : `bg-purple-500`
-          }`}
+          className={`mt-6 p-2 w-32 text-white rounded-full ${generatingStatus ? `bg-purple-700` : `bg-purple-500`
+            }`}
         >
           {generatingStatus ? (
-            <span>
+            <div className="flex items-center justify-center text-white">
               Generating
-              <span className="ellipsis" />
-            </span>
+              <Loader />
+            </div>
           ) : (
             "Generate"
           )}
