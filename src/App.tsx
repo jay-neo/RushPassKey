@@ -8,7 +8,11 @@ export default () => {
   const [password, setPassword] = useState<null | string>(null);
 
   if (!password) {
-    return <AppLockScreen confirmPassword={setPassword} />;
+    return (
+      <>
+        <AppLockScreen confirmPassword={setPassword} />
+        <Toaster />
+      </>)
   } else if (password) {
     return (
       <AccountsProvider>
