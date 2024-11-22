@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useAccounts } from "src/lib/accounts/AccountsContext";
 import { AccountPreview } from "./AccountPreview";
+import { useMemo } from "react";
 
 export const AccountsList = () => {
   const { accounts } = useAccounts();
@@ -60,24 +61,30 @@ export const AccountsList = () => {
     filteredAccounts = accounts;
   }
 
+  const renderedAccounts = useMemo(() => {
+    if (!filteredAccounts || filteredAccounts.length === 0) return null;
+
+    return filteredAccounts.map((account, index) => (
+      <AccountPreview
+        key={index}
+        id={account?.id}
+        account_name={account?.account_name}
+        website_url={account?.website_url}
+        last_updated={account?.last_updated}
+        last_used={account?.last_used}
+        username={account?.username}
+        email={account?.email}
+        phone={account?.phone}
+      />
+    ));
+  }, [filteredAccounts]);
+
   return (
     <>
-      {filteredAccounts?.length > 0 ? (
-        filteredAccounts.map((account, index) => (
-          <AccountPreview
-            key={index}
-            id={account?.id}
-            account_name={account?.account_name}
-            website_url={account?.website_url}
-            last_updated={account.last_updated}
-            last_used={account?.last_used}
-            username={account?.username}
-            email={account?.email}
-            phone={account?.phone}
-          />
-        ))
+      {renderedAccounts ? (
+        renderedAccounts
       ) : (
-        <div className="flex  justify-center">
+        <div className="flex justify-center">
           <p className="font-bold text-2xl font-serif">No accounts found</p>
         </div>
       )}
