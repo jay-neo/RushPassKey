@@ -148,7 +148,7 @@ export const RegenerateAccountPasswordForm: React.FC<DialogProps> = ({
                     <button
                       type="submit"
                       disabled={generatingStatus}
-                      className={` h-9 px-3 font-semibold rounded-full ${generatingStatus
+                      className={`md:h-10 py-1 px-3 font-semibold rounded-full ${generatingStatus
                         ? `bg-purple-700`
                         : `text-black hover:text-white bg-purple-500/90 hover:bg-purple-600 transition-all duration-200`
                         }

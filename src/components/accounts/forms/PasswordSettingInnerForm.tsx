@@ -87,12 +87,13 @@ export const PasswordSettingInnerForm = ({
               <input
                 type="checkbox"
                 name="casing_enabled"
-                checked={formData.casing_enabled}
+                checked={formData.alphabet && formData.casing_enabled}
+                disabled={!formData.alphabet}
                 onChange={handleInputChange}
-                className={`mr-2 accent-lime-300 cursor-pointer`}
+                className={`mr-2 ${formData.alphabet && `accent-lime-300 cursor-pointer`}`}
               />
               <span
-                className={`font-semibold ${formData.casing_enabled ? "text-lime-700" : ""
+                className={`font-semibold ${formData.alphabet && formData.casing_enabled ? "text-lime-700" : ""
                   }`}
               >
                 All Casing
@@ -163,7 +164,7 @@ export const PasswordSettingInnerForm = ({
               className={`mr-1 font-medium ${formData.symbols ? "text-amber-600" : ""
                 }`}
             >
-              Symbols
+              Special Character
             </span>
           </div>
         </div>

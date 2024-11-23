@@ -72,7 +72,7 @@ export const AccountPreview: React.FC<AccountClient> = ({
         <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 md:space-x-8 w-full">
           <div className="flex items-center space-x-4 w-full md:w-4/12">
             <div className={` border-black border-2 rounded-full ${logo ? `p-1` : `px-7 py-5 bg-blue-200`}`}>
-              {logo ?
+              {website_url ?
                 <img src={`https://logo.clearbit.com/${website_url}`} alt="" width={70} height={70} className="rounded-full" />
                 :
                 <span className="text-3xl font-bold">
@@ -117,13 +117,13 @@ export const AccountPreview: React.FC<AccountClient> = ({
                 </button>
               </div>
             )}
-            {phone && (
+            {/* {phone && (
               <div>
                 <button className="text-purple-600 hover:underline hover:shadow-sm truncate text-right w-full">
                   {phone}
                 </button>
               </div>
-            )}
+            )} */}
             {email && (
               <div>
                 <button className="text-pink-600 hover:underline hover:shadow-sm truncate text-right w-full">
