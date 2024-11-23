@@ -32,15 +32,16 @@ export const AppLockScreen: React.FC<{
       } catch (error) {
         console.error("Error verifying user:", error);
       }
-    })()
-
-  }, [])
+    })();
+  }, []);
 
   const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
     setUnlockingStatus(true);
     try {
-      const success: boolean = await invoke<boolean>("verify_user", { password });
+      const success: boolean = await invoke<boolean>("verify_user", {
+        password,
+      });
       if (success) {
         confirmPassword(password);
       } else {
@@ -77,7 +78,9 @@ export const AppLockScreen: React.FC<{
       >
         <div className="text-center space-y-4">
           <div className="bg-gray-50 p-4 rounded-lg border">
-            <p className="text-sm text-gray-600 mb-2">Please save this password securely:</p>
+            <p className="text-sm text-gray-600 mb-2">
+              Please save this password securely:
+            </p>
             <div className="bg-white p-3 rounded border-2 border-indigo-200 font-mono text-lg break-all">
               {newUserPassword}
             </div>
@@ -100,7 +103,8 @@ export const AppLockScreen: React.FC<{
           </div>
 
           <p className="text-xs text-gray-500">
-            ⚠️ This password will only be shown once. Make sure to save it somewhere safe!
+            ⚠️ This password will only be shown once. Make sure to save it
+            somewhere safe!
           </p>
         </div>
       </Dialog>
@@ -135,10 +139,11 @@ export const AppLockScreen: React.FC<{
           <button
             type="submit"
             disabled={unlockingStatus}
-            className={`w-full text-white py-2 rounded-lg ${unlockingStatus
-              ? `bg-indigo-800`
-              : `bg-indigo-600 hover:bg-indigo-700 transition duration-300`
-              }`}
+            className={`w-full text-white py-2 rounded-lg ${
+              unlockingStatus
+                ? `bg-indigo-800`
+                : `bg-indigo-600 hover:bg-indigo-700 transition duration-300`
+            }`}
           >
             {unlockingStatus ? (
               <div className="flex items-center justify-center text-white">

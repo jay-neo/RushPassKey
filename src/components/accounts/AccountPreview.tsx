@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { invoke } from "@tauri-apps/api/core";
 import { RegenerateAccountPasswordForm } from "./forms/RegenerateAccountPasswordForm";
-import { writeText } from '@tauri-apps/plugin-clipboard-manager';
+import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 
 export const AccountPreview: React.FC<AccountClient> = ({
   id,
@@ -20,9 +21,12 @@ export const AccountPreview: React.FC<AccountClient> = ({
 
   const copyToClipboard = async () => {
     try {
-      const { password, last_used: lastUsed } = await invoke<PasswordResult>("copy_account_password", {
-        id,
-      });
+      const { password, last_used: lastUsed } = await invoke<PasswordResult>(
+        "copy_account_password",
+        {
+          id,
+        },
+      );
       if (password) {
         // navigator.clipboard
         //   .writeText(password)
@@ -35,14 +39,13 @@ export const AccountPreview: React.FC<AccountClient> = ({
         //   });
         await writeText(password);
         setLastUsedState(lastUsed);
-        toast.success('Password copied to clipboard!');
+        toast.success("Password copied to clipboard!");
       } else {
         toast.error("Failed to copy password.");
       }
-    } catch (error: any) {
-      console.error("Error:", error);
-      console.error("Error:", error?.message);
+    } catch (error) {
       toast.error("Error! We couldn't process your request.");
+      console.log("Error copying password: ", error);
     }
   };
   const [logo, setLogo] = useState<boolean>(false);
@@ -51,13 +54,14 @@ export const AccountPreview: React.FC<AccountClient> = ({
     (async () => {
       try {
         const res = await fetch(`https://logo.clearbit.com/${website_url}`, {
-          mode: "cors"
+          mode: "cors",
         });
         setLogo(res.ok);
       } catch (error) {
+        console.log("Error fetching logo:", error);
       }
-    })()
-  }, [])
+    })();
+  }, []);
 
   return (
     <>
@@ -71,14 +75,22 @@ export const AccountPreview: React.FC<AccountClient> = ({
 
         <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 md:space-x-8 w-full">
           <div className="flex items-center space-x-4 w-full md:w-4/12">
-            <div className={` border-black border-2 rounded-full ${logo ? `p-1` : `px-7 py-5 bg-blue-200`}`}>
-              {website_url ?
-                <img src={`https://logo.clearbit.com/${website_url}`} alt="" width={70} height={70} className="rounded-full" />
-                :
+            <div
+              className={` border-black border-2 rounded-full ${logo ? `p-1` : `px-7 py-5 bg-blue-200`}`}
+            >
+              {website_url ? (
+                <img
+                  src={`https://logo.clearbit.com/${website_url}`}
+                  alt=""
+                  width={70}
+                  height={70}
+                  className="rounded-full"
+                />
+              ) : (
                 <span className="text-3xl font-bold">
                   {account_name.charAt(0)}
                 </span>
-              }
+              )}
             </div>
             <div className="flex flex-col md:flex-wrap w-8/12">
               <span className="text-3xl font-bold truncate w-full">
@@ -155,9 +167,24 @@ export const AccountPreview: React.FC<AccountClient> = ({
             </div>
             <span className="text-xl font-semibold text-lime-500"></span>
             <span className="text-xl font-semibold"></span>
-            {email && <div><span className="font-semibold">Email:</span> <span className="text-orange-800">{email}</span></div>}
-            {username && <div><span className="font-semibold">Username:</span> <span className="text-orange-800">{username}</span></div>}
-            {phone && <div><span className="font-semibold">Phone:</span> <span className="text-orange-800">{phone}</span></div>}
+            {email && (
+              <div>
+                <span className="font-semibold">Email:</span>{" "}
+                <span className="text-orange-800">{email}</span>
+              </div>
+            )}
+            {username && (
+              <div>
+                <span className="font-semibold">Username:</span>{" "}
+                <span className="text-orange-800">{username}</span>
+              </div>
+            )}
+            {phone && (
+              <div>
+                <span className="font-semibold">Phone:</span>{" "}
+                <span className="text-orange-800">{phone}</span>
+              </div>
+            )}
           </div>
         }
       />

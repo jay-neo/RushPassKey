@@ -12,7 +12,8 @@ export default () => {
       <>
         <AppLockScreen confirmPassword={setPassword} />
         <Toaster />
-      </>)
+      </>
+    );
   } else if (password) {
     return (
       <AccountsProvider>

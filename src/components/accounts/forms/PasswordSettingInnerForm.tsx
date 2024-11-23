@@ -75,8 +75,9 @@ export const PasswordSettingInnerForm = ({
               className={`mr-2 accent-fuchsia-300 cursor-pointer`}
             />
             <span
-              className={`font-semibold ${formData.alphabet ? "text-fuchsia-700" : ""
-                }`}
+              className={`font-semibold ${
+                formData.alphabet ? "text-fuchsia-700" : ""
+              }`}
             >
               Alphabet
             </span>
@@ -93,29 +94,38 @@ export const PasswordSettingInnerForm = ({
                 className={`mr-2 ${formData.alphabet && `accent-lime-300 cursor-pointer`}`}
               />
               <span
-                className={`font-semibold ${formData.alphabet && formData.casing_enabled ? "text-lime-700" : ""
-                  }`}
+                className={`font-semibold ${
+                  formData.alphabet && formData.casing_enabled
+                    ? "text-lime-700"
+                    : ""
+                }`}
               >
                 All Casing
               </span>
             </div>
             <div
-              className={`ml-6 mt-1 ${formData.casing_enabled ? "opacity-50 pointer-events-none" : ""
-                }`}
+              className={`ml-6 mt-1 ${
+                formData.casing_enabled ? "opacity-50 pointer-events-none" : ""
+              }`}
             >
               <div className="flex items-center mt-1">
                 <input
                   type="radio"
                   name="casing"
                   value="small"
-                  checked={formData.casing == "small" && !formData.casing_enabled}
+                  checked={
+                    formData.casing == "small" && !formData.casing_enabled
+                  }
                   onChange={handleCasingChange}
                   disabled={formData.casing_enabled}
                   className="mr-2 accent-orange-600 cursor-pointer"
                 />
                 <span
-                  className={`mr-1 font-medium ${!formData.casing_enabled && formData.casing == "small" ? "text-orange-600" : ""
-                    }`}
+                  className={`mr-1 font-medium ${
+                    !formData.casing_enabled && formData.casing == "small"
+                      ? "text-orange-600"
+                      : ""
+                  }`}
                 >
                   Small
                 </span>
@@ -123,14 +133,19 @@ export const PasswordSettingInnerForm = ({
                   type="radio"
                   name="casing"
                   value="capital"
-                  checked={formData.casing === "capital" && !formData.casing_enabled}
+                  checked={
+                    formData.casing === "capital" && !formData.casing_enabled
+                  }
                   onChange={handleCasingChange}
                   disabled={formData.casing_enabled}
                   className="ml-4 mr-2 accent-emerald-600 cursor-pointer"
                 />
                 <span
-                  className={`mr-1 font-medium ${!formData.casing_enabled && formData.casing === "capital" ? "text-emerald-600" : ""
-                    }`}
+                  className={`mr-1 font-medium ${
+                    !formData.casing_enabled && formData.casing === "capital"
+                      ? "text-emerald-600"
+                      : ""
+                  }`}
                 >
                   Capital
                 </span>
@@ -146,8 +161,9 @@ export const PasswordSettingInnerForm = ({
               className="mr-2 accent-pink-300 cursor-pointer"
             />
             <span
-              className={`mr-1 font-medium ${formData.number ? "text-pink-600" : ""
-                }`}
+              className={`mr-1 font-medium ${
+                formData.number ? "text-pink-600" : ""
+              }`}
             >
               Number
             </span>
@@ -161,8 +177,9 @@ export const PasswordSettingInnerForm = ({
               className="mr-2 accent-amber-300 cursor-pointer"
             />
             <span
-              className={`mr-1 font-medium ${formData.symbols ? "text-amber-600" : ""
-                }`}
+              className={`mr-1 font-medium ${
+                formData.symbols ? "text-amber-600" : ""
+              }`}
             >
               Special Character
             </span>

@@ -3,35 +3,34 @@
 @tailwind utilities;
 
 .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 @layer base {
-    @keyframes ellipsis {
-      0% {
-        content: '';
-      }
-      20% {
-        content: '.';
-      }
-      40% {
-        content: '..';
-      }
-      60% {
-        content: '...';
-      }
-      80% {
-        content: '....';
-      }
-      100% {
-        content: '....';
-      }
+  @keyframes ellipsis {
+    0% {
+      content: "";
     }
-  
-    .ellipsis::after {
-      content: '';
-      animation: ellipsis 3s steps(6, end) infinite;
+    20% {
+      content: ".";
+    }
+    40% {
+      content: "..";
+    }
+    60% {
+      content: "...";
+    }
+    80% {
+      content: "....";
+    }
+    100% {
+      content: "....";
     }
   }
-  
+
+  .ellipsis::after {
+    content: "";
+    animation: ellipsis 3s steps(6, end) infinite;
+  }
+}

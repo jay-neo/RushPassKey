@@ -44,7 +44,7 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
     e.preventDefault();
     if (!formData.email && !formData.phone && !formData.username) {
       toast.warning(
-        "Please fill at least one of the fields: Email, Phone, or Username."
+        "Please fill at least one of the fields: Email, Phone, or Username.",
       );
       return;
     }
@@ -149,12 +149,17 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
           <span className="font-bold">Default Password Settings</span>
         </div>
         <div
-          className={`overflow-hidden transition-all duration-500 ease-in-out ${showAdvancedOptions ? "max-h-screen" : "max-h-0"
-            }`}
+          className={`overflow-hidden transition-all duration-500 ease-in-out ${
+            showAdvancedOptions ? "max-h-screen" : "max-h-0"
+          }`}
         >
           <PasswordSettingInnerForm
             formData={formData}
-            setFormData={setFormData as React.Dispatch<React.SetStateAction<AccountPassConfig>>}
+            setFormData={
+              setFormData as React.Dispatch<
+                React.SetStateAction<AccountPassConfig>
+              >
+            }
           />
         </div>
       </div>
@@ -163,8 +168,9 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
         <button
           type="submit"
           disabled={generatingStatus}
-          className={`mt-6 p-2 w-32 text-white rounded-full ${generatingStatus ? `bg-purple-700` : `bg-purple-500`
-            }`}
+          className={`mt-6 p-2 w-32 text-white rounded-full ${
+            generatingStatus ? `bg-purple-700` : `bg-purple-500`
+          }`}
         >
           {generatingStatus ? (
             <div className="flex items-center justify-center text-white">

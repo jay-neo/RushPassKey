@@ -47,7 +47,7 @@ export const RegenerateAccountPasswordForm: React.FC<DialogProps> = ({
         {
           id,
           passwordConfig: formData,
-        }
+        },
       );
       if (updatedAccount && id) {
         await updateAccount(accounts, setAccounts, id, updatedAccount);
@@ -108,14 +108,16 @@ export const RegenerateAccountPasswordForm: React.FC<DialogProps> = ({
                 onSubmit={regenerateAccountPasswordHandler}
               >
                 <div
-                  className={` my-2 ${showAdvancedOptions ? `` : `flex w-full`
-                    }`}
+                  className={` my-2 ${
+                    showAdvancedOptions ? `` : `flex w-full`
+                  }`}
                 >
                   <div
-                    className={`text-blue-600 cursor-pointer ${showAdvancedOptions
-                      ? ""
-                      : "flex items-center justify-center w-3/5"
-                      }`}
+                    className={`text-blue-600 cursor-pointer ${
+                      showAdvancedOptions
+                        ? ""
+                        : "flex items-center justify-center w-3/5"
+                    }`}
                     onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
                   >
                     <input
@@ -131,8 +133,9 @@ export const RegenerateAccountPasswordForm: React.FC<DialogProps> = ({
                   </div>
 
                   <div
-                    className={`overflow-hidden transition-all duration-500 ease-in-out ${showAdvancedOptions ? "max-h-screen" : "max-h-0 w-0"
-                      }`}
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                      showAdvancedOptions ? "max-h-screen" : "max-h-0 w-0"
+                    }`}
                   >
                     <PasswordSettingInnerForm
                       formData={formData}
@@ -140,18 +143,20 @@ export const RegenerateAccountPasswordForm: React.FC<DialogProps> = ({
                     />
                   </div>
                   <div
-                    className={` ${showAdvancedOptions
-                      ? "mt-6 flex items-center justify-center"
-                      : ""
-                      }`}
+                    className={` ${
+                      showAdvancedOptions
+                        ? "mt-6 flex items-center justify-center"
+                        : ""
+                    }`}
                   >
                     <button
                       type="submit"
                       disabled={generatingStatus}
-                      className={`md:h-10 py-1 px-3 font-semibold rounded-full ${generatingStatus
-                        ? `bg-purple-700`
-                        : `text-black hover:text-white bg-purple-500/90 hover:bg-purple-600 transition-all duration-200`
-                        }
+                      className={`md:h-10 py-1 px-3 font-semibold rounded-full ${
+                        generatingStatus
+                          ? `bg-purple-700`
+                          : `text-black hover:text-white bg-purple-500/90 hover:bg-purple-600 transition-all duration-200`
+                      }
                     `}
                     >
                       {generatingStatus ? (
@@ -170,10 +175,11 @@ export const RegenerateAccountPasswordForm: React.FC<DialogProps> = ({
               <form className="mt-4 p-2" onSubmit={deleteAccountHandler}>
                 <div className="flex items-center justify-center">
                   <button
-                    className={`h-9 px-4 font-semibold rounded-full ${deletingStatus
-                      ? `bg-red-600/70 w-36`
-                      : `bg-red-400/80 hover:text-white hover:bg-red-500 transition-all duration-200`
-                      }`}
+                    className={`h-9 px-4 font-semibold rounded-full ${
+                      deletingStatus
+                        ? `bg-red-600/70 w-36`
+                        : `bg-red-400/80 hover:text-white hover:bg-red-500 transition-all duration-200`
+                    }`}
                     disabled={deletingStatus}
                   >
                     {deletingStatus ? (
