@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import Dialog from "../components/ui/Dialog";
+import { toast } from "sonner";
+import { Loader } from "src/components/ui/Loader";
 
 export const AppLockScreen: React.FC<{
   confirmPassword: React.Dispatch<React.SetStateAction<string | null>>;
 }> = ({ confirmPassword }) => {
+  const [newUserPassword, setNewUserPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [unlockingStatus, setUnlockingStatus] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
 
   useEffect(() => {
     const inputElement = document.getElementById("password");
@@ -15,11 +20,28 @@ export const AppLockScreen: React.FC<{
     }
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const result: string = await invoke<string>("check_new_user");
+        console.log("check_new_user result:", result);
+        if (result && typeof result == "string") {
+          setNewUserPassword(result);
+          setShowPasswordModal(true);
+        }
+      } catch (error) {
+        console.error("Error verifying user:", error);
+      }
+    })();
+  }, []);
+
   const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
     setUnlockingStatus(true);
     try {
-      const success: boolean = await invoke<boolean>("verify_user", { password });
+      const success: boolean = await invoke<boolean>("verify_user", {
+        password,
+      });
       if (success) {
         confirmPassword(password);
       } else {
@@ -32,8 +54,60 @@ export const AppLockScreen: React.FC<{
     setUnlockingStatus(false);
   };
 
+  const handleCopyPassword = async () => {
+    try {
+      await navigator.clipboard.writeText(newUserPassword);
+      toast.success("Password copied to clipboard");
+    } catch (err) {
+      toast.error("Failed to copy password");
+      console.error("Failed to copy password:", err);
+    }
+  };
+
+  const handleClosePasswordModal = () => {
+    setShowPasswordModal(false);
+    setNewUserPassword("");
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Dialog
+        isOpen={showPasswordModal}
+        onClose={handleClosePasswordModal}
+        title="Welcome! Here's Your Password"
+      >
+        <div className="text-center space-y-4">
+          <div className="bg-gray-50 p-4 rounded-lg border">
+            <p className="text-sm text-gray-600 mb-2">
+              Please save this password securely:
+            </p>
+            <div className="bg-white p-3 rounded border-2 border-indigo-200 font-mono text-lg break-all">
+              {newUserPassword}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <button
+              onClick={handleCopyPassword}
+              className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300"
+            >
+              Copy Password
+            </button>
+
+            <button
+              onClick={handleClosePasswordModal}
+              className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300"
+            >
+              I've Saved My Password
+            </button>
+          </div>
+
+          <p className="text-xs text-gray-500">
+            ⚠️ This password will only be shown once. Make sure to save it
+            somewhere safe!
+          </p>
+        </div>
+      </Dialog>
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm text-center">
         <div className="flex justify-center">
           <svg
@@ -72,10 +146,10 @@ export const AppLockScreen: React.FC<{
             }`}
           >
             {unlockingStatus ? (
-              <span>
+              <div className="flex items-center justify-center text-white">
                 Unlocking
-                <span className="ellipsis" />
-              </span>
+                <Loader />
+              </div>
             ) : (
               "Unlock"
             )}

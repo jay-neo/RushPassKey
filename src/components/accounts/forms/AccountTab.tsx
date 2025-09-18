@@ -4,6 +4,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { extractBaseDomain } from "src/lib/utils";
 import { useAccounts } from "src/lib/accounts/AccountsContext";
 import { PasswordSettingInnerForm } from "./PasswordSettingInnerForm";
+import { Loader } from "src/components/ui/Loader";
 
 const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
   const { setAccounts } = useAccounts();
@@ -34,8 +35,8 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
         name === "website_url"
           ? extractBaseDomain(value)
           : type === "checkbox"
-          ? checked
-          : value,
+            ? checked
+            : value,
     });
   };
 
@@ -43,7 +44,7 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
     e.preventDefault();
     if (!formData.email && !formData.phone && !formData.username) {
       toast.warning(
-        "Please fill at least one of the fields: Email, Phone, or Username."
+        "Please fill at least one of the fields: Email, Phone, or Username.",
       );
       return;
     }
@@ -54,7 +55,6 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
       });
       if (newAccount) {
         setAccounts((prevAccounts) => [newAccount, ...prevAccounts]);
-        await closeForm();
         toast.success("Password saved successfully!");
       } else {
         toast.error("Failed to save password.");
@@ -63,6 +63,7 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
       console.error("Error:", error);
       toast.error("Error! We couldn't process your request.");
     }
+    await closeForm();
     setGeneratingStatus(false);
   };
 
@@ -154,7 +155,11 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
         >
           <PasswordSettingInnerForm
             formData={formData}
-            setFormData={setFormData}
+            setFormData={
+              setFormData as React.Dispatch<
+                React.SetStateAction<AccountPassConfig>
+              >
+            }
           />
         </div>
       </div>
@@ -168,10 +173,10 @@ const AccountForm = ({ closeForm }: { closeForm: () => Promise<void> }) => {
           }`}
         >
           {generatingStatus ? (
-            <span>
+            <div className="flex items-center justify-center text-white">
               Generating
-              <span className="ellipsis" />
-            </span>
+              <Loader />
+            </div>
           ) : (
             "Generate"
           )}

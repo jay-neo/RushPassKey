@@ -22,9 +22,14 @@ type AccountClient = {
   id: string;
   account_name: string;
   website_url: string;
-  last_updated: String;
-  last_used: String;
+  last_updated: string;
+  last_used: string;
   email: string;
   username: string;
   phone: string;
+};
+
+type PasswordResult = {
+  password: string;
+  last_used: string;
 };

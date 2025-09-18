@@ -2,7 +2,7 @@ export const updateAccount = async (
   accounts: AccountClient[],
   setAccounts: React.Dispatch<React.SetStateAction<AccountClient[]>>,
   id: string,
-  updatedData: AccountClient
+  updatedData: AccountClient,
 ) => {
   const updatedAccounts = accounts.map((account) => {
     if (account.id === id) {

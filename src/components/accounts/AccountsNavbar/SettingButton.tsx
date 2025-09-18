@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, MutableRefObject } from "react";
+import { useState, useEffect, useRef, type MutableRefObject } from "react";
 
 export default () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

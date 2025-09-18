@@ -10,7 +10,7 @@ export const Navbar = ({
       <nav className="lg:rounded-b-xl bg-teal-500/50 dark:bg-[#212146] md:border-b md:border-black md:dark:border-black px-5">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-3 px-2">
           <Logo />
-          <div className="flex items-center md:order-2 space-x-5 ">
+          <div className="flex items-center md:order-2 space-x-5 dark:invert">
             <button
               type="button"
               className="hover:text-orange-600"

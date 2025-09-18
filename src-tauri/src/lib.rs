@@ -9,6 +9,7 @@ mod utils;
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_clipboard_manager::init())
         .invoke_handler(tauri::generate_handler![
             commands::new_account::new_account,
             commands::get_all_accounts::get_all_accounts,
@@ -16,6 +17,7 @@ pub fn run() {
             commands::copy_account_password::copy_account_password,
             commands::regenerate_account_password::regenerate_account_password,
             commands::delete_account::delete_account,
+            commands::check_new_user::check_new_user,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

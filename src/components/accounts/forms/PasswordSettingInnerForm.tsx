@@ -4,8 +4,8 @@ export const PasswordSettingInnerForm = ({
   formData,
   setFormData,
 }: {
-  formData: typeof AccountPassConfig;
-  setFormData: React.Dispatch<React.SetStateAction<typeof AccountPassConfig>>;
+  formData: AccountPassConfig;
+  setFormData: React.Dispatch<React.SetStateAction<AccountPassConfig>>;
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -88,18 +88,16 @@ export const PasswordSettingInnerForm = ({
               <input
                 type="checkbox"
                 name="casing_enabled"
-                checked={formData.casing_enabled}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    casing_enabled: e.target.checked,
-                  })
-                }
-                className={`mr-2 accent-lime-300 cursor-pointer`}
+                checked={formData.alphabet && formData.casing_enabled}
+                disabled={!formData.alphabet}
+                onChange={handleInputChange}
+                className={`mr-2 ${formData.alphabet && `accent-lime-300 cursor-pointer`}`}
               />
               <span
                 className={`font-semibold ${
-                  formData.casing_enabled ? "text-lime-700" : ""
+                  formData.alphabet && formData.casing_enabled
+                    ? "text-lime-700"
+                    : ""
                 }`}
               >
                 All Casing
@@ -115,14 +113,18 @@ export const PasswordSettingInnerForm = ({
                   type="radio"
                   name="casing"
                   value="small"
-                  checked={formData.casing === "small"}
+                  checked={
+                    formData.casing == "small" && !formData.casing_enabled
+                  }
                   onChange={handleCasingChange}
                   disabled={formData.casing_enabled}
                   className="mr-2 accent-orange-600 cursor-pointer"
                 />
                 <span
                   className={`mr-1 font-medium ${
-                    formData.casing === "small" ? "text-orange-600" : ""
+                    !formData.casing_enabled && formData.casing == "small"
+                      ? "text-orange-600"
+                      : ""
                   }`}
                 >
                   Small
@@ -131,14 +133,18 @@ export const PasswordSettingInnerForm = ({
                   type="radio"
                   name="casing"
                   value="capital"
-                  checked={formData.casing === "capital"}
+                  checked={
+                    formData.casing === "capital" && !formData.casing_enabled
+                  }
                   onChange={handleCasingChange}
                   disabled={formData.casing_enabled}
                   className="ml-4 mr-2 accent-emerald-600 cursor-pointer"
                 />
                 <span
                   className={`mr-1 font-medium ${
-                    formData.casing === "capital" ? "text-emerald-600" : ""
+                    !formData.casing_enabled && formData.casing === "capital"
+                      ? "text-emerald-600"
+                      : ""
                   }`}
                 >
                   Capital
@@ -175,7 +181,7 @@ export const PasswordSettingInnerForm = ({
                 formData.symbols ? "text-amber-600" : ""
               }`}
             >
-              Symbols
+              Special Character
             </span>
           </div>
         </div>

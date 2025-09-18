@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import AccountTab from "./AccountTab";
 interface DialogProps {
   isOpen: boolean;
@@ -39,4 +39,3 @@ export const GenerateAccountPasswordForm: React.FC<DialogProps> = ({
     </div>
   );
 };
-

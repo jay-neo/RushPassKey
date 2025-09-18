@@ -67,3 +67,9 @@ impl From<AccountCache> for AccountClient {
         }
     }
 }
+
+#[derive(Serialize)]
+pub struct CopyPasswordResult {
+    pub password: String,
+    pub last_used: String,
+}

@@ -1,6 +1,6 @@
 {
   "productName": "RushPassKey",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "identifier": "com.rushpasskey.app",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -19,7 +19,15 @@
       }
     ],
     "security": {
-      "csp": null
+      "csp": null,
+      "capabilities": [
+        {
+          "identifier": "allow-write-text",
+          "description": "My application capability used for all windows",
+          "windows": ["*"],
+          "permissions": ["clipboard-manager:allow-write-text"]
+        }
+      ]
     }
   },
   "bundle": {
